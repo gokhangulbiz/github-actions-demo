@@ -15,24 +15,28 @@ namespace GithubActions.Demo.API.UnitTest
             Assert.Pass();
         }
 
+        [Test]
         public void Test2()
         {
             Assert.Pass();
         }
 
+        [Test]
         public void Test3()
         {
             Assert.Pass();
         }
 
+        [Test]
         public void Test4()
         {
             Assert.Pass();
         }
 
+        [Test]
         public void Test5()
         {
-            Assert.Pass();
+            Assert.Fail();
         }
     }
 }
