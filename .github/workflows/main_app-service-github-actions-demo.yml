@@ -42,7 +42,7 @@ jobs:
         if: success() || failure()
         with:
           name: JEST Tests            
-          path: reports/*.trx 
+          path:  ${{env.DOTNET_ROOT}}/reports/*.trx 
           reporter: dotnet-trx
 
       - name: Upload artifact for deployment job
