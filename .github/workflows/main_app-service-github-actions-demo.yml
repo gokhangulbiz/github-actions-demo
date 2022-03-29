@@ -24,15 +24,36 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
+        working-directory: GithubActions.Demo
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        working-directory: GithubActions.Demo
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
+
+      - name: Test with dotnet
+        run: dotnet test --logger "trx;logfilename=test-results.trx" --results-directory ${{env.DOTNET_ROOT}}/reports
+        working-directory: GithubActions.Demo
+        
+      - name: Test report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: Test Report           
+          path:  ${{env.DOTNET_ROOT}}/reports/*.trx 
+          reporter: dotnet-trx
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: dotnet-results
+          path: ${{env.DOTNET_ROOT}}/reports
+        if: ${{ always() }}
 
   deploy:
     runs-on: windows-latest
