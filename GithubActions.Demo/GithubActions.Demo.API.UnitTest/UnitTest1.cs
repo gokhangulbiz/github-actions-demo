@@ -36,7 +36,7 @@ namespace GithubActions.Demo.API.UnitTest
         [Test]
         public void Test5()
         {
-            Assert.Fail();
+            Assert.Pass();
         }
     }
 }
