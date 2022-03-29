@@ -11,8 +11,8 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
-
+    runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -27,7 +27,7 @@ jobs:
         working-directory: GithubActions.Demo
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish ./GithubActions.Demo.API/GithubActions.Demo.API.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
         working-directory: GithubActions.Demo
 
       - name: Upload artifact for deployment job
@@ -40,11 +40,11 @@ jobs:
         run: dotnet test --logger "trx;logfilename=test-results.trx" --results-directory ${{env.DOTNET_ROOT}}/reports
         working-directory: GithubActions.Demo
         
-      - name: Test report
+      - name: test
         uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
-          name: Test Report           
+          name: test          
           path:  ${{env.DOTNET_ROOT}}/reports/*.trx 
           reporter: dotnet-trx
 
